@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Lines = ({ lines, handler }) => (
+const Lines = ({ lines, handler, roll }) => (
   <div style={{ display: 'flex' }}>
     {lines.map((l, index) => (
       <div
         key={index}
-        onClick={() => handler(index)}
+        onClick={() => handler(index, roll)}
         style={{
           flex: 1,
           border: 'thick solid black',
@@ -23,5 +23,6 @@ const Lines = ({ lines, handler }) => (
 Lines.propTypes = {
   lines: React.PropTypes.arrayOf(React.PropTypes.number).isRequired,
   handler: React.PropTypes.func.isRequired,
+  roll: React.PropTypes.number.isRequired,
 };
 export default Lines;

@@ -19,8 +19,11 @@ const screen = createReducer({
   );
 
 const chooseLineReducer = (state, payload) => {
+  const { index, roll } = payload;
+  if (index < roll) return state;
   const lines = [...state];
-  lines[payload] -= 1;
+  lines[index] -= 1;
+  lines[index - roll] += 1;
   return lines;
 };
 

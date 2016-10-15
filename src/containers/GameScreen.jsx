@@ -9,7 +9,7 @@ const GameScreen = ({ lines, roll, chooseLineAction }) => (
     <h1>Hamback!</h1>
     <div>Roll: {roll}</div>
     <div>
-      <Lines lines={lines} handler={chooseLineAction} />
+      <Lines lines={lines} handler={chooseLineAction} roll={roll} />
     </div>
   </div>
   );
