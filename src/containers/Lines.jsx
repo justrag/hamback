@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { getLines, getRoll } from '../reducers';
 import { chooseLine } from '../actionCreators';
 
-const onClickHandler = (lineValue, roll, index, action) => {
-  if (lineValue > 0 && index >= roll) {
-    action(index, roll);
+const onClickHandler = (lineValue, roll, lineIndex, action) => {
+  if (lineValue > 0 && lineIndex >= roll) {
+    action(lineIndex, roll);
   }
 };
 
