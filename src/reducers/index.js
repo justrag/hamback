@@ -5,7 +5,18 @@ import { dieRoll, getKeyByValue } from '../game_utils';
 
 export const getLines = (state) =>
  [0, 1, 2, 3, 4, 5, 6]
-    .map(lineIndex => getAllCounters(state.counters).filter(c => (c.position === lineIndex)).length);
+    .map(lineIndex => getAllCounters(state.counters)
+                      .filter(c => (c.position === lineIndex)).length);
+export const getCountersOnLines = (state) =>
+ [0, 1, 2, 3, 4, 5, 6]
+    .map(lineIndex => getAllCounters(state.counters)
+    .filter(c => (c.position === lineIndex))
+    .reduce((prev, curr) => {
+      prev.push(curr.id);
+      return prev;
+    }, [])
+    );
+
 export const getScreen = (state) => state.screen;
 export const getTurn = (state) => state.turn;
 export const getRoll = (state) => state.roll;
