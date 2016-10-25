@@ -1,64 +1,39 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import FlipMove from 'react-flip-move';
-import { getCountersOnLines, getRoll } from '../reducers';
+import { getCountersOnLines, getRoll, getActiveLines } from '../reducers';
 import { chooseLine } from '../actionCreators';
+import Line from '../components/Line';
 
-const countersColors = {
-  1: '#5E91AB',
-  2: '#C94E3C',
-  3: '#6CAE3F',
-  4: '#C04E86',
-  5: '#EAE448',
-  6: '#EDB639',
-};
-
-const onClickHandler = (lineValue, roll, lineIndex, action) => {
-  if (lineValue > 0 && lineIndex >= roll) {
-    action(lineIndex, roll);
+const clickHandler = (active, roll, index, action) => {
+  if (active) {
+    action(index, roll);
   }
 };
 
-const Lines = ({ roll, countersOnLines, chooseLineAction }) => (
-  <div style={{ display: 'flex' }}>
-    <FlipMove easing="cubic-bezier(0, 0.7, 0.8, 0.1)">
-    {countersOnLines.map((l, index) => (
-      <div
+const Lines = ({ roll, countersOnLines, activeLines, chooseLineAction }) => (
+  <div className="flexdiv">
+    {countersOnLines.map((l, index) =>
+      <Line
         key={`l${index}`}
-        onClick={() => onClickHandler(l.length, roll, index, chooseLineAction)}
-        style={{
-          flex: 1,
-          border: 'thick solid black',
-          margin: '5px',
-          padding: '5px',
-          textAlign: 'center',
-        }}
-      >
-        {l.map(c =>
-          <div
-            key={`l${index}-c${c}`}
-            style={{
-              border: 'thin dashed black',
-              backgroundColor: countersColors[c],
-              borderRadius: '50%' }}
-          >
-            {c}
-          </div>
-          )}
-      </div>
-      )
+        index={index}
+        counters={l}
+        active={activeLines[index]}
+        handler={() => clickHandler(activeLines[index], roll, index, chooseLineAction)}
+      />
     )}
-    </FlipMove>
   </div>
   );
 Lines.propTypes = {
   roll: React.PropTypes.number.isRequired,
-  countersOnLines:  React.PropTypes.arrayOf(React.PropTypes.arrayOf(React.PropTypes.number)).isRequired,
+  countersOnLines:
+    React.PropTypes.arrayOf(React.PropTypes.arrayOf(React.PropTypes.number)).isRequired,
   chooseLineAction: React.PropTypes.func.isRequired,
+  activeLines: React.PropTypes.arrayOf(React.PropTypes.bool).isRequired,
 };
 const mapStateToProps = (state) => ({
   roll: getRoll(state),
   countersOnLines: getCountersOnLines(state),
+  activeLines: getActiveLines(state),
 });
 export default connect(mapStateToProps, {
   chooseLineAction: chooseLine,

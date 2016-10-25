@@ -7,6 +7,40 @@
   }
   */
 </script>
+<style>
+.line-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  border: thick solid black;
+  margin: 5px;
+  padding: 5px;
+  text-align: center;
+  width: 5em;
+  height: 11em;
+  box-shadow: 5px 5px 2px 0px rgba(0,0,0,0.75);
+/*  float: left; */
+}
+.line-container.inactive {
+  border: thick dashed gray;
+}
+.line-container.active:active {
+  background-color: yellow;
+}
+.flexdiv {
+  display: flex;
+}
+.counter {
+border: thin solid darkgray;
+border-radius: 50%;
+width: 1.2em;
+height: 1.2em;
+margin: 1px;
+box-shadow: 3px 3px 1px 0px rgba(0,0,0,0.75);
+}
+
+</style>
 <body>
   <div id="app"></div>
   <script src="bundle.js"></script>

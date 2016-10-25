@@ -5,6 +5,13 @@ import { getLines, getTurn, getRoll,
   isTemporarilyBlocked, isPermanentlyBlocked, isWon } from '../reducers';
 import { endGame, unblock } from '../actionCreators';
 
+const buttonStyle = {
+  width: '100%',
+  textAlign: 'center',
+  background: 'olive',
+  padding: '15px',
+};
+
 const GameScreen = ({
   turn,
   roll,
@@ -18,9 +25,9 @@ const GameScreen = ({
       <div>
         <Lines />
       </div>
-      { displayUnblock && <div onClick={() => unblockAction()}>UNBLOCK</div> }
-      { displayEndGame && <div onClick={() => endGameAction()}>GAME END</div> }
-      { displayVictory && <div onClick={() => endGameAction()}>YOU WON!</div> }
+      { displayUnblock && <div style={buttonStyle} onClick={() => unblockAction()}>UNBLOCK</div> }
+      { displayEndGame && <div style={buttonStyle} onClick={() => endGameAction()}>GAME END</div> }
+      { displayVictory && <div style={buttonStyle} onClick={() => endGameAction()}>YOU WON!</div> }
     </div>
   );
 GameScreen.propTypes = {

@@ -3,6 +3,9 @@ import { createReducer } from 'redux-act';
 import { startGame, chooseLine, endGame, unblock } from '../actionCreators';
 import { dieRoll, getKeyByValue } from '../game_utils';
 
+const getAllCounters = (counters) =>
+  [1, 2, 3, 4, 5, 6].map(i => counters[i]);
+
 export const getLines = (state) =>
  [0, 1, 2, 3, 4, 5, 6]
     .map(lineIndex => getAllCounters(state.counters)
@@ -31,13 +34,22 @@ export const isBlocked = (state) => {
 
 export const isTemporarilyBlocked = (state) => {
   const lines = getLines(state);
-  return (isBlocked(state) && lines[0] !== 0);
+  return (isBlocked(state) && lines[0] !== 0 && lines[0] !== 6);
 };
 
 export const isPermanentlyBlocked = (state) => {
   const lines = getLines(state);
   return (isBlocked(state) && lines[0] === 0);
 };
+const isLineActive = (state, lineIndex) => {
+  const hrumpf = (lineIndex >= getRoll(state) &&
+    getAllCounters(state.counters).filter(c => (c.position === lineIndex)).length > 0);
+  console.log(`${lineIndex}: ${hrumpf}`);
+  return hrumpf;
+};
+
+export const getActiveLines = (state) =>
+ [0, 1, 2, 3, 4, 5, 6].map(i => isLineActive(state, i));
 
 const bulba = (state, payload) => {
   console.debug('state, payload: %o %o', state, payload);
@@ -49,9 +61,6 @@ const screen = createReducer({
   [endGame]: () => 'ENDSCREEN',
 }, 'BEGINSCREEN'
   );
-
-const getAllCounters = (counters) =>
-  [1, 2, 3, 4, 5, 6].map(i => counters[i]);
 
 const chooseLineReducer = (state, payload) => {
   const { lineIndex, roll } = payload;
@@ -97,7 +106,7 @@ const roll = createReducer({
   );
 
 const turn = createReducer({
-  [startGame]: () => 0,
+  [startGame]: () => 1,
   [chooseLine]: (state) => state + 1,
   [unblock]: (state) => state + 1,
 }, []
